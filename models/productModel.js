@@ -18,8 +18,6 @@ const productSchema = new Schema({
     },
     p_category: {
         type: String,
-        enum: ['Soap', 'Shampoo', 'Oil'],
-        default: 'Soap',
         required: true
     },
     regular_price: {
@@ -35,7 +33,8 @@ const productSchema = new Schema({
         required: true
     },
     p_image: {
-        type: String 
+        data: Buffer,
+        contentType: String
     },
     weight_volume: {
         type: String
@@ -48,8 +47,8 @@ const productSchema = new Schema({
     },
     status: {
         type: String,
-        enum: ['active', 'inactive'],
-        default: 'active',
+        enum: ['Active', 'Inactive'],
+        default: 'Active',
         required: true
     }
 

@@ -1,6 +1,33 @@
 const Product = require('../models/productModel')
 const mongoose = require('mongoose')
 
+const multer = require('multer');
+const path = require('path');
+
+// Multer storage configuration
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'uploads/')
+    },
+    filename: function (req, file, cb) {
+        const sku = req.body.SKU;
+        const ext = path.extname(file.originalname);
+        cb(null, sku + '-' + Date.now() + ext)
+    }
+});
+
+// File filter function to accept only image files
+const fileFilter = (req, file, cb) => {
+    if (file.mimetype.startsWith('image/')) {
+        cb(null, true);
+    } else {
+        cb(new Error('Only images are allowed!'), false);
+    }
+};
+
+// Multer upload instance
+const upload = multer({ storage: storage, fileFilter: fileFilter });
+
 
 // GET all the products
 const getProducts = async(req, res) => {
@@ -34,7 +61,6 @@ const getProduct = async(req, res) => {
 
 //create a new product
 const createProduct = async (req, res) => {
-    console.log(` request sent: ${req.body}`)
     const { 
         SKU,
         p_name,
@@ -43,13 +69,13 @@ const createProduct = async (req, res) => {
         regular_price,
         sales_price,
         quantity_available,
-        p_image,
         weight_volume,
         ingredients,
         manufacturer_brand,
         status
     } = req.body
 
+    const p_image = req.file.path;
 
     let emptyFields = []
 
@@ -97,7 +123,13 @@ const createProduct = async (req, res) => {
             manufacturer_brand,
             status
         })
-        res.status(200).json(product)
+
+        const productWithImage = {
+            ...product._doc,
+            p_image: p_image
+        };
+
+        res.status(200).json(productWithImage);
     } catch (error) {
         res.status(400).json({ error: error.message })
     }
@@ -149,5 +181,6 @@ module.exports = {
     getProduct,
     createProduct,
     deleteProduct,
-    updateProduct
+    updateProduct,
+    upload
 }
