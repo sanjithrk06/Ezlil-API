@@ -1,7 +1,6 @@
 const User = require('../models/userModel')
 const jwt = require('jsonwebtoken')
 
-
 const createToken = (_id) => {
     return jwt.sign({_id}, process.env.SECRET, { expiresIn: '10m' })
 }
@@ -37,7 +36,7 @@ const signupUser = async (req, res) => {
         res.status(200).json({email, token})
     } catch (error) {
         res.status(400).json({error: error.message})
-    } 
+    }
 }
 
 module.exports = {loginUser, signupUser}
