@@ -5,13 +5,14 @@ const mongoose = require('mongoose')
 const productsRoutes = require('./routes/products')
 const customersRoutes = require('./routes/customers')
 const userRoutes = require('./routes/user')
+const cors = require('cors')  
 
 //express app
 const app = express()
 
 // middleware
 app.use(express.json())
-
+app.use(cors())
 app.use((req, res, next) => {
     console.log(req.path, req.method)
     next()
