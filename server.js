@@ -1,6 +1,7 @@
 require('dotenv').config()
 
 const express = require('express')
+const path = require('path'); 
 const mongoose = require('mongoose')
 const productsRoutes = require('./routes/products')
 const customersRoutes = require('./routes/customers')
@@ -18,7 +19,7 @@ app.use((req, res, next) => {
     next()
 })
 
-
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 //routes
 app.use('/api/products', productsRoutes)
 

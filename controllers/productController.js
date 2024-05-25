@@ -1,6 +1,5 @@
 const Product = require("../models/productModel");
 const mongoose = require("mongoose");
-
 const multer = require("multer");
 const path = require("path");
 
@@ -73,7 +72,7 @@ const createProduct = async (req, res) => {
   } = req.body;
 
   const p_image = req.file.path;
-
+ 
   let emptyFields = [];
 
   if (!SKU) {
@@ -100,6 +99,10 @@ const createProduct = async (req, res) => {
   if (!status) {
     emptyFields.push("status");
   }
+  if (!p_image) {
+    emptyFields.push("p_image");
+  }
+
   if (emptyFields.length > 0) {
     return res
       .status(400)
@@ -122,13 +125,8 @@ const createProduct = async (req, res) => {
       manufacturer_brand,
       status,
     });
-
-    const productWithImage = {
-      ...product._doc,
-      p_image: p_image,
-    };
-
-    res.status(200).json(productWithImage);
+   
+    res.status(200).json(product);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -159,9 +157,13 @@ const updateProduct = async (req, res) => {
     return res.status(404).json({ error: "No such product found" });
   }
 
-  const product = await Product.findByIdAndUpdate(id, {
-    ...req.body,
-  });
+  const updateData = { ...req.body };
+
+  if (req.file) {
+    updateData.p_image = req.file.path;
+  }
+
+  const product = await Product.findByIdAndUpdate(id, updateData, { new: true });
 
   if (!product) {
     return res.status(404).json({ error: "No such product found" });
