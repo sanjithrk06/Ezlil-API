@@ -33,8 +33,8 @@ const productSchema = new Schema({
         required: true
     },
     p_image: {
-        data: Buffer,
-        contentType: String
+        type: String, 
+        required: true
     },
     weight_volume: {
         type: String

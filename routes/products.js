@@ -10,7 +10,7 @@ const router = express.Router()
 // GET all the products
 router.get('/', getProducts)
 
-// GET a single workout
+// GET a single customer
 router.get('/:id', getProduct)
 
 // POST a new product
@@ -20,6 +20,6 @@ router.post('/', upload.single('p_image'), createProduct)
 router.delete('/:id', deleteProduct)
 
 // UPDATE a product
-router.patch('/:id', updateProduct)
+router.patch('/:id',upload.single('p_image'), updateProduct)
 
 module.exports = router
