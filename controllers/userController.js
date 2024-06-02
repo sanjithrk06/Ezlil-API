@@ -1,42 +1,48 @@
-const User = require('../models/userModel')
-const jwt = require('jsonwebtoken')
+const User = require("../models/userModel");
+const jwt = require("jsonwebtoken");
 
 const createToken = (_id) => {
-    return jwt.sign({_id}, process.env.SECRET, { expiresIn: '10m' })
-}
+  return jwt.sign({ _id }, process.env.SECRET, { expiresIn: "10m" });
+};
 
 //login user
 const loginUser = async (req, res) => {
+  const { email, password } = req.body;
 
-    const {email, password } = req.body
+  try {
+    const user = await User.login(email, password);
 
-    try{
-        const user = await User.login(email, password)
+    //create a token
+    const token = createToken(user._id);
 
-        //create a token
-        const token = createToken(user._id)
-
-        res.status(200).json({email, token})
-    } catch (error) {
-        res.status(400).json({error: error.message})
-    } 
-}
+    res.status(200).json({ email, token });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
 
 //register customer controller
 const signupUser = async (req, res) => {
+  const { name, email, password, phone, address, user_role, status } = req.body;
 
-    const { name, email, password, phone, address } = req.body
+  try {
+    const user = await User.signup(
+      name,
+      email,
+      password,
+      phone,
+      address,
+      user_role,
+      status
+    );
 
-    try{
-        const user = await User.signup(name, email, password, phone, address)
+    //create a token
+    const token = createToken(user._id);
 
-        //create a token
-        const token = createToken(user._id)
+    res.status(200).json({ name, email, token });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
 
-        res.status(200).json({name, email, token})
-    } catch (error) {
-        res.status(400).json({error: error.message})
-    }
-}
-
-module.exports = {loginUser, signupUser}
+module.exports = { loginUser, signupUser };
