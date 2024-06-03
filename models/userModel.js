@@ -77,9 +77,10 @@ userSchema.statics.signup = async function (
   email,
   password,
   phone,
-  user_role,
   address = null,
-  status
+  user_role,
+  status,
+ 
 ) {
   console.log("Data", name, email, password, phone, user_role, address, status);
 
@@ -120,8 +121,8 @@ userSchema.statics.signup = async function (
     password: hash,
     phone,
     user_role,
-    address,
     status,
+    address,
   });
 
   return user;
