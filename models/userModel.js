@@ -4,17 +4,6 @@ const validator = require("validator");
 
 const Schema = mongoose.Schema;
 
-const addressSchema = new Schema(
-  {
-    addressLine1: { type: String, required: true },
-    addressLine2: { type: String },
-    city: { type: String, required: true },
-    state: { type: String, required: true },
-    postalCode: { type: String, required: true },
-  },
-  { _id: false }
-);
-
 const userSchema = new Schema(
   {
     customerId: {
@@ -25,7 +14,11 @@ const userSchema = new Schema(
         return generateCustomerId();
       },
     },
-    name: {
+    firstName: {
+      type: String,
+      required: true,
+    },
+    lastName: {
       type: String,
       required: true,
     },
@@ -38,25 +31,27 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
-    phone: {
+    mobile: {
       type: String,
       required: true,
     },
-    user_role: {
+    role: {
       type: String,
       enum: ["SuperAdmin", "Admin", "User"],
-      default: "SuperAdmin",
+      default: "User",
     },
-    address: {
-      type: addressSchema,
-      default: null,
-    },
-    status: {
-      type: String,
-      enum: ["Active", "Inactive"],
-      default: "Active",
-      required: true,
-    },
+    address: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "addresses"
+    }],
+    ratings: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: ratings
+    }],
+    reviews : [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: reviews
+    }]
   },
   { timestamps: true }
 );
@@ -76,13 +71,13 @@ userSchema.statics.signup = async function (
   name,
   email,
   password,
-  phone,
+  mobile,
   address = null,
-  user_role,
+  role,
   status,
  
 ) {
-  console.log("Data", name, email, password, phone, user_role, address, status);
+  console.log("Data", name, email, password, mobile, role, address, status);
 
   //validation
   if (!email) {
@@ -94,8 +89,8 @@ userSchema.statics.signup = async function (
   if (!password) {
     throw Error("pass fields must be filled");
   }
-  if (!phone) {
-    throw Error("phone fields must be filled");
+  if (!mobile) {
+    throw Error("mobile fields must be filled");
   }
 
   if (!validator.isEmail(email)) {
@@ -119,8 +114,8 @@ userSchema.statics.signup = async function (
     name,
     email,
     password: hash,
-    phone,
-    user_role,
+    mobile,
+    role,
     status,
     address,
   });
@@ -150,4 +145,4 @@ userSchema.statics.login = async function (email, password) {
   return user;
 };
 
-module.exports = mongoose.model("user", userSchema);
+module.exports = mongoose.model("users", userSchema);

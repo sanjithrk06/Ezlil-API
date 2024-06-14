@@ -29,6 +29,8 @@ app.use('/api/user', userRoutes)
 //customers
 app.use('/api/customers', customersRoutes)
 
+//
+
 //connect to db
 mongoose.connect(process.env.MONGO_URI)
     .then(()=> {
