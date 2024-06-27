@@ -12,7 +12,7 @@ app.get("/api", (req, res)=> {
 })
 
 const authRouters = require("./routes/auth.route")
-app.use("/api/auth", authRouters);
+app.use("/auth", authRouters);
 
 const userRouters = require("./routes/user.route")
 app.use("/api/users", userRouters);
