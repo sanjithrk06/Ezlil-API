@@ -50,7 +50,7 @@ const orderSchema = new Schema(
             type : Number,
             require : true
         },
-        discount : {
+        discounte : {
             type : Number,
             require : true
         },
@@ -58,7 +58,7 @@ const orderSchema = new Schema(
             type : String,
             require : true
         },
-        totalItem : {
+        totalItems : {
             type : Number,
             require : true
         }
