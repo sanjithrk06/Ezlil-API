@@ -36,7 +36,6 @@ async function findUserCart(userId) {
         cart.totalItems = totalItems;
 
         return cart;
-
     } catch (error) {
         throw new Error(error.message);
     }
@@ -70,6 +69,8 @@ async function addCartItem(userId, req) {
     }
 }
 
-
-
-module.exports = {createCart, findUserCart, addCartItem};
+module.exports = {
+    createCart, 
+    findUserCart, 
+    addCartItem
+};

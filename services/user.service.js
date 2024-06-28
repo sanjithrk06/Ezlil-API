@@ -79,7 +79,7 @@ const getUserProfileByToken = async(token) => {
 
         const userId = jwtProvider.getUserIdFromToken(token);
 
-        const user = await User.findUserById(userId);
+        const user = await findUserById(userId);
 
         if(!user) {
             throw new Error("User not found with id :", userId);
