@@ -2,7 +2,7 @@
 # **RESTful API for An E-commerce Website (Ezlil)**
 
 ## Project Overview 
-The RESTful API for the Ezlil e-commerce website is designed to provide a robust and scalable interface for managing the core functionalities of the online store. This API allows seamless interaction with the website's backend, enabling the handling of products, user accounts, orders, and other essential e-commerce features.
+A RESTful API for the Ezlil e-commerce website is designed to provide a robust and scalable interface for managing the core functionalities of the online store. This API allows seamless interaction with the website's backend, enabling the handling of products, user accounts, orders, and other essential e-commerce features.
 
 ---
 
