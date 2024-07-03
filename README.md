@@ -1,8 +1,10 @@
 
 # **RESTful API for An E-commerce Website (Ezlil)**
 
-## Project Overview
+## Project Overview 
 The RESTful API for the Ezlil e-commerce website is designed to provide a robust and scalable interface for managing the core functionalities of the online store. This API allows seamless interaction with the website's backend, enabling the handling of products, user accounts, orders, and other essential e-commerce features.
+
+---
 
 ## Tech Stack
 
@@ -12,6 +14,7 @@ The RESTful API for the Ezlil e-commerce website is designed to provide a robust
 
 **ODM Tool:** Mongoose
 
+---
 
 ## Key Features
 
@@ -23,12 +26,16 @@ The RESTful API for the Ezlil e-commerce website is designed to provide a robust
 - **Search and Filter:** Advanced search and filtering options for product catalog.
 - **Review and Rating System:** Endpoints for users to leave reviews and ratings for products.
 
+---
+
 ## Stackholders
 
 - **Developers:** Building front-end applications or mobile apps that need to interact with the E-commerce API.
 - **E-commerce Managers:** Managing product listings, inventory, and customer orders through custom dashboards or admin panels.
 - **Third-party Integrators:** Companies looking to integrate e-commerce capabilities with other services or platforms, such as CRM systems or marketing tools.
 - **Customers:** Indirectly benefiting from a more responsive and feature-rich e-commerce experience.
+
+---
 
 ## Environment Variables
 
@@ -40,6 +47,7 @@ To run this project, you will need to add the following environment variables to
 
 `SECRET`(Secret Key for JWT)
 
+---
 
 ## Run Locally
 
@@ -67,3 +75,4 @@ Start the server
   npm run start
 ```
 
+---
