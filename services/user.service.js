@@ -1,4 +1,5 @@
 const User = require("../models/user.model");
+const Address = require("../models/address.model");
 const jwtProvider = require("../config/jwtProvider");
 const bcrypt = require("bcrypt");
 const validator = require("validator");
