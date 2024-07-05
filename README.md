@@ -2,7 +2,8 @@
 # **RESTful API for An E-commerce Website (Ezlil)**
 
 ## Project Overview 
-A RESTful API for the Ezlil e-commerce website is designed to provide a robust and scalable interface for managing the core functionalities of the online store. This API allows seamless interaction with the website's backend, enabling the handling of products, user accounts, orders, and other essential e-commerce features.
+A RESTful API for the Ezlil e-commerce website is designed to provide a robust and scalable interface for managing the core functionalities of the online store. This API allows seamless interaction with the website's backend, enabling the handling of products, user accounts, orders, and other essential e-commerce features. 
+[Run the application locally](#run-locally)
 
 ---
 
@@ -49,7 +50,7 @@ To run this project, you will need to add the following environment variables to
 
 ---
 
-## Run Locally
+## Run Locally <a id="run-locally"></a>
 
 Clone the project
 
