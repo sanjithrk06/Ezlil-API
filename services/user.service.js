@@ -5,7 +5,7 @@ const validator = require("validator");
 
 const createUser = async(userData)=> {
     try {
-        const {firstName, lastName, email, password} = userData;
+        const {firstName, lastName, email, mobile,password} = userData;
     
         //validation
         if (!email) {
@@ -14,6 +14,9 @@ const createUser = async(userData)=> {
         if (!password) {
         throw Error("pass fields must be filled");
         }
+        if (!mobile) {
+            throw Error("mobile fields must be filled");
+            }
     
         if (!validator.isEmail(email)) {
         throw Error("Email is not valid");
@@ -36,6 +39,7 @@ const createUser = async(userData)=> {
             firstName, 
             lastName, 
             email, 
+            mobile,
             password: hash
         });
     
@@ -56,6 +60,7 @@ const findUserById = async(userId) => {
 
         return user;
     } catch (err) {
+        console.log(err.message)
         throw new Error(err.message)
     }
 }
