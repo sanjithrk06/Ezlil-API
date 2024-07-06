@@ -2,39 +2,22 @@ const Category = require("../models/category.model");
 const Product = require("../models/product.model");
 
 async function createProduct(reqData) {
-    let topLevel = await Category.findOne({name: reqData.topLevelCategory})
+    let category = await Category.findOne({name: reqData.category})
 
-    if(!topLevel) {
-        topLevel = new Category({
-            name: reqData.topLevelCategory,
-            level: 1
-        })
-    }
-
-    let secondLevel = await Category.findOne({
-        name: reqData.secondLevelCategory,
-        parentCategory: topLevel._id
-    })
-
-    if(!secondLevel) {
-        secondLevel = new Category({
-            name: reqData.secondLevelCategory,
-            parentCategory: topLevel._id,
-            level: 2
-        })
+    if(!category) {
+        throw new Error("Category not found with the name "+ reqData.category);
     }
 
     const product = new Product({
         title: reqData.title,
-        color: reqData.color,
         description: reqData.description,
+        price: reqData.price,
         discountedPrice: reqData.discountedPrice,
         discountPresent: reqData.discountPresent,
-        imageUrl: reqData.imageUrl,
-        brand: reqData.brand,
-        price: reqData.price,
         quantity: reqData.quantity,
-        category: secondLevel._id
+        brand: reqData.brand,
+        imageUrl: reqData.imageUrl,
+        category: category._id
     })
 
     return await product.save();
@@ -92,4 +75,12 @@ async function getAllProducts(reqQuery) {
     }
 
 
+}
+
+module.exports = {
+    createProduct,
+    deleteProduct,
+    updateProduct,
+    findProductById,
+    getAllProducts
 }

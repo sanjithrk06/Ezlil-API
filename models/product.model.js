@@ -4,11 +4,6 @@ const Schema = mongoose.Schema
 
 const productSchema = new Schema(
     {
-        SKU: {
-            type: String,
-            required: true,
-            unique: true
-        },
         title : {
             type: String,
             required: true
