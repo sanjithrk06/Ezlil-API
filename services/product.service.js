@@ -13,7 +13,7 @@ async function createProduct(reqData) {
         description: reqData.description,
         price: reqData.price,
         discountedPrice: reqData.discountedPrice,
-        discountPresent: reqData.discountPresent,
+        discountPersent: reqData.discountPersent,
         quantity: reqData.quantity,
         brand: reqData.brand,
         imageUrl: reqData.imageUrl,
@@ -31,7 +31,10 @@ async function deleteProduct(productId) {
 }
 
 async function updateProduct(productId, reqData) {
-    return await Product.findByIdAndUpdate(productId, reqData);
+    await Product.findByIdAndUpdate(productId, reqData);
+    const product = await Product.findById(productId);
+
+    return product;
 }
 
 async function findProductById(id) {
@@ -44,37 +47,14 @@ async function findProductById(id) {
     return product;
 }
 
-async function getAllProducts(reqQuery) {
-    let {category, minPrice, maxPrice, minDiscount, sort, stock, pageNumer, pageSize} = reqQuery;
+async function getAllProducts() {
+    const products = await Product.find().populate("category");
 
-    let query = Product.find().populate("category");
-
-    if(category){
-        const existCategory = await Category.findOne({name: category});
-        if(existCategory) {
-            query = query.where("category").equals(existCategory._id);
-        }else {
-            return {content:[], currentPage: 1, totalPage: 0}
-        }
+    if(!products) {
+        products = [];
     }
-
-    if(minPrice && maxPrice) {
-        query = query.where("discountedPrice").gte(minPrice).lte(maxPrice);
-    }
-
-    if(minDiscount) {
-        query = query.where("discountedPersent").gt(minDiscount);
-    }
-
-    if(stock) {
-        if(stock=="in_stock") {
-            query = query.where("quantity").gt(0);
-        }else if(stock=="out_of_stock") {
-            query = query.where("quantity").gt(1);
-        }
-    }
-
-
+    
+    return products;
 }
 
 module.exports = {

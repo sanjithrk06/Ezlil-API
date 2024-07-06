@@ -20,7 +20,7 @@ const productSchema = new Schema(
             type: Number,
             required: true
         },
-        discountPresent : {
+        discountPersent : {
             type: Number,
             required: true
         },

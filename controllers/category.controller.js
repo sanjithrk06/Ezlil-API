@@ -12,10 +12,10 @@ const createCategory = async(req, res) => {
 }
 
 const updateCategory = async(req, res) => {
-    const {categoryId, name} = req.body;
+    const {name} = req.body;
 
     try {
-        const updateCategory = await categoryService.updateCategory(categoryId, name);
+        const updateCategory = await categoryService.updateCategory(req.params.categoryId, name);
 
         return res.status(200).send(updateCategory);
     } catch (error) {
@@ -24,9 +24,8 @@ const updateCategory = async(req, res) => {
 }
 
 const deleteCategory = async(req, res)=> {
-    const { categoryId } = req.body;
     try {
-        const deleteCategory = await categoryService.deleteCategory(categoryId);
+        const deleteCategory = await categoryService.deleteCategory(req.params.categoryId);
 
         return res.status(200).send(deleteCategory);
     } catch (error) {
@@ -45,9 +44,8 @@ const getAllCategory = async(req, res)=> {
 }
 
 const getCategory = async(req, res)=> {
-    const {categoryId} = req.body;
     try {
-        const category = await categoryService.getCategory(categoryId);
+        const category = await categoryService.getCategory(req.params.categoryId);
 
         return res.status(200).send(category);
     } catch (error) {
