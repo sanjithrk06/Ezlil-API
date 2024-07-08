@@ -6,7 +6,8 @@ const validator = require("validator");
 
 const createUser = async(userData)=> {
     try {
-        const {firstName, lastName, email, mobile,password} = userData;
+        const {firstName, lastName, email, mobile, password, role} = userData;
+
     
         //validation
         if (!email) {
@@ -16,8 +17,12 @@ const createUser = async(userData)=> {
         throw Error("pass fields must be filled");
         }
         if (!mobile) {
-            throw Error("mobile fields must be filled");
-            }
+        throw Error("Mobile fields must be filled");
+        }
+        if(!role){
+            role = "User";
+        }
+
     
         if (!validator.isEmail(email)) {
         throw Error("Email is not valid");
@@ -40,8 +45,11 @@ const createUser = async(userData)=> {
             firstName, 
             lastName, 
             email, 
-            mobile,
-            password: hash
+
+            password: hash,
+            role,
+            mobile
+
         });
     
         return user;

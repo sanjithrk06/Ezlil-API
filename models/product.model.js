@@ -4,11 +4,6 @@ const Schema = mongoose.Schema
 
 const productSchema = new Schema(
     {
-        SKU: {
-            type: String,
-            required: true,
-            unique: true
-        },
         title : {
             type: String,
             required: true
@@ -25,7 +20,7 @@ const productSchema = new Schema(
             type: Number,
             required: true
         },
-        discountPresent : {
+        discountPersent : {
             type: Number,
             required: true
         },
