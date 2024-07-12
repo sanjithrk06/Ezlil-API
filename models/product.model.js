@@ -1,9 +1,18 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const { v4: uuidv4 } = require('uuid');
 
-const Schema = mongoose.Schema
+const Schema = mongoose.Schema;
+
+const generateSKU = () => {
+    return `SKU-${uuidv4()}`;
+};
 
 const productSchema = new Schema(
     {
+        SKU : {
+            type: String,
+            default: generateSKU
+        },
         title : {
             type: String,
             required: true
@@ -54,6 +63,12 @@ const productSchema = new Schema(
         category : {
             type : mongoose.Schema.Types.ObjectId,
             ref : "categories"
+        },
+        weight : {
+            type : String
+        },
+        manufacturer : {
+            type : String
         }
     }, 
     { timestamps: true }
