@@ -2,6 +2,10 @@ const productService = require("../services/product.service");
 
 const createProduct = async(req, res) => {
     try {
+        const { body, file } = req;
+        if (file) {
+            body.imageUrl = file.path;
+        }
         const product = await productService.createProduct(req.body);
 
         return res.status(201).send(product);
