@@ -2,7 +2,7 @@ const Category = require("../models/category.model");
 const Product = require("../models/product.model");
 
 async function createProduct(reqData) {
-    let category = await Category.findOne({name: reqData.category})
+    let category = await Category.findById(reqData.category);
 
     if(!category) {
         throw new Error("Category not found with the name "+ reqData.category);
@@ -31,6 +31,7 @@ async function deleteProduct(productId) {
 }
 
 async function updateProduct(productId, reqData) {
+    console.log(productId);
     await Product.findByIdAndUpdate(productId, reqData);
     const product = await Product.findById(productId);
 

@@ -6,6 +6,6 @@ const authenticate =  require("../middleware/authenticate");
 const upload = require("../middleware/upload");
 router.post("/",upload.single('imageUrl'), productController.createProduct);
 router.delete("/:id", authenticate, productController.deleteProduct);
-router.put("/:id", authenticate, productController.updateProduct);
+router.put("/:id",upload.single('imageUrl'),  authenticate, productController.updateProduct);
 
 module.exports = router;
