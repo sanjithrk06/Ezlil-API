@@ -28,7 +28,10 @@ const deleteProduct = async(req, res) => {
 
 const updateProduct = async(req, res) => {
     const productId = req.params.id;
-
+    const { body, file } = req;
+    if (file) {
+        body.imageUrl = file.path;
+    }
     try {
         const product = await productService.updateProduct(productId, req.body);
 
