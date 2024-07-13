@@ -17,7 +17,9 @@ async function createProduct(reqData) {
         quantity: reqData.quantity,
         brand: reqData.brand,
         imageUrl: reqData.imageUrl,
-        category: category._id
+        category: category._id,
+        weight: reqData.weight,
+        manufacturer: reqData.manufacturer
     })
 
     return await product.save();
