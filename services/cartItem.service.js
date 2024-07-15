@@ -31,6 +31,7 @@ async function updateCartItem(userId, cartItemId, cartItemData) {
 }
 
 async function removeCartItem(userId, cartItemId) {
+    console.log(cartItemId);
     const cartItem = await findCartItemById(cartItemId);
     const user = await userService.findUserById(userId);
 
