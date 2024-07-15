@@ -26,4 +26,7 @@ app.use("/api/admin/products", adminProductRouter);
 const categoryRouter = require("./routes/category.route");
 app.use("/api/category", categoryRouter);
 
+const cartRouter=require("./routes/cart.route");
+app.use("/api/cart",cartRouter);
+
 module.exports = app;
