@@ -21,7 +21,7 @@ async function createCategory(name) {
     }
 }
 
-async function updateCategory(name, categoryId) {
+async function updateCategory(categoryId, name) {
     try {
         const category = await Category.findOne({_id: categoryId});
 
@@ -42,9 +42,15 @@ async function updateCategory(name, categoryId) {
 
 async function deleteCategory(categoryId) {
     try {
+        const existCategory = await Category.findById(categoryId);
+
+        if(!existCategory){
+            return "Category Not found";
+        }
+
         const deleteCategory = await Category.findByIdAndDelete(categoryId);
 
-        return deleteCategory;
+        return "Category deleted successfully";
     } catch (error) {
         throw new Error(error.message);
     }

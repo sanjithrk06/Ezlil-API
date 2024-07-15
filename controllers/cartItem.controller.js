@@ -4,7 +4,7 @@ const updateCartItem = async(req, res)=> {
     const user = req.user;
 
     try {
-        const updatedCartItem = await cartItemService.updateCartItem(user.id, req.params.id, req.body);
+        const updatedCartItem = await cartItemService.updateCartItem(user.id, req.params.cartItemId, req.body);
 
         return res.status(200).send(updatedCartItem);
     } catch (error) {
@@ -16,7 +16,7 @@ const removeCartItem = async(req, res)=> {
     const user = req.user;
 
     try {
-        await cartItemService.removeCartItem(user._id, req.params.id);
+        await cartItemService.removeCartItem(user._id, req.params.cartItemId);
 
         return res.status(200).send({message: "Cart Item removed successfully"});
     } catch (error) {
