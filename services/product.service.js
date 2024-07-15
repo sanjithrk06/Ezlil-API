@@ -2,7 +2,7 @@ const Category = require("../models/category.model");
 const Product = require("../models/product.model");
 
 async function createProduct(reqData) {
-    let category = await Category.findById(reqData.category);
+    let category = await Category.findOne({name : reqData.category});
 
     if(!category) {
         throw new Error("Category not found with the name "+ reqData.category);
@@ -22,7 +22,16 @@ async function createProduct(reqData) {
         manufacturer: reqData.manufacturer
     })
 
-    return await product.save();
+    await product.save();
+
+    const populatedProduct = await Product.findById(product._id).populate('category', 'name').exec();
+
+    const result = {
+        ...populatedProduct.toObject(),
+        category: populatedProduct.category.name
+    };
+
+    return result;
 }
 
 async function deleteProduct(productId) {

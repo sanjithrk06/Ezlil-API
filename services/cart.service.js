@@ -3,11 +3,9 @@ const CartItem = require("../models/cartItem.model");
 const Product = require("../models/product.model");
 
 async function createCart(user) {
-    try{
-    const cart = new Cart({user});
-    const createdCart = await cart.save();
-
-    return createdCart;
+    try {
+        const cart = new Cart({ user });
+        return await cart.save();
     } catch (error) {
         throw new Error(error.message);
     }
@@ -15,25 +13,20 @@ async function createCart(user) {
 
 async function findUserCart(userId) {
     try {
-        let cart = await Cart.findOne({user: userId});
+        const cart = await Cart.findOne({ user: userId }).populate({
+            path: 'cartItems',
+            populate: { path: 'product' }
+        });
 
-        let cartItems = await CartItem.find({cart: cart._id}).populate("product");
-
-        cart.cartItems = cartItems;
-
-        let totalPrice = 0;
-        let totalDiscountedPrice = 0;
-        let totalItems = 0;
-
-        for(let cartItem of cart.cartItems) {
-            totalPrice += cartItem.price;
-            totalDiscountedPrice += cartItem.dicountedPrice;
-            totalItems += cartItem.quantity;
+        if (!cart) {
+            return {
+                user: userId,
+                cartItems: [],
+                totalPrice: 0,
+                totalDiscountedPrice: 0,
+                totalItems: 0
+            };
         }
-
-        cart.totalPrice = totalPrice;
-        cart.totalDiscountedPrice = totalDiscountedPrice;
-        cart.totalItems = totalItems;
 
         return cart;
     } catch (error) {
@@ -41,36 +34,61 @@ async function findUserCart(userId) {
     }
 }
 
-async function addCartItem(userId, req) {
+async function addCartItem(userId, { productId }) {
     try {
-        const cart = await Cart.findOne({user: userId});
-        const product = await Product.findById(req._id);
+        let cart = await Cart.findOne({ user: userId });
+        if (!cart) {
+            cart = await createCart(userId);
+        }
 
-        const isPresent = await CartItem.findOne({cart: cart._id, product: product._id, userId});
+        const product = await Product.findById(productId);
+        if (!product) {
+            throw new Error('Product not found');
+        }
 
-        if(!isPresent) {
+        const existingCartItem = await CartItem.findOne({ cart: cart._id, product: product._id });
+
+        if (existingCartItem) {
+            existingCartItem.quantity += 1;
+            existingCartItem.price = product.price * existingCartItem.quantity;
+            existingCartItem.discountedPrice = product.discountedPrice * existingCartItem.quantity;
+            await existingCartItem.save();
+        } else {
             const cartItem = new CartItem({
                 product: product._id,
                 cart: cart._id,
+                user: userId, // Ensure user is set
                 quantity: 1,
-                userId,
                 price: product.price,
                 discountedPrice: product.discountedPrice
-            })
-
-            const createdCartItem = await cartItem.save();
-            cart.cartItems.push(createdCartItem);
-            await cart.save();
-
-            return "Item added to cart";
+            });
+            await cartItem.save();
+            cart.cartItems.push(cartItem);
         }
+
+        await updateCartTotals(cart);
+        return "Item added to cart";
+    } catch (error) {
+        throw new Error(error.message);
+    }
+}
+
+async function updateCartTotals(cart) {
+    try {
+        const cartItems = await CartItem.find({ cart: cart._id });
+
+        cart.totalPrice = cartItems.reduce((total, item) => total + item.price, 0);
+        cart.totalDiscountedPrice = cartItems.reduce((total, item) => total + item.discountedPrice, 0);
+        cart.totalItems = cartItems.reduce((total, item) => total + item.quantity, 0);
+
+        await cart.save();
     } catch (error) {
         throw new Error(error.message);
     }
 }
 
 module.exports = {
-    createCart, 
-    findUserCart, 
+    createCart,
+    findUserCart,
     addCartItem
 };
