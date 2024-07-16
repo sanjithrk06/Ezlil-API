@@ -13,8 +13,7 @@ const addressSchema = new Schema(
             required : true
         },
         addressLine2 : {
-            type : String,
-            required : true
+            type : String
         },
         city : {
             type : String,

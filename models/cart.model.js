@@ -38,29 +38,25 @@ const cartSchema = new Schema(
     { timestamps : true }
 );
 
-cartSchema.pre('save', async function(next) {
-    try {
-        const cart = this;
-        const cartItems = await mongoose.model('cartItems').find({ cart: cart._id });
+cartSchema.methods.updateTotals = async function() {
+    const cart = this;
+    const cartItems = await mongoose.model('cartItems').find({ cart: cart._id });
 
-        let totalPrice = 0;
-        let totalItems = 0;
-        let totalDiscountedPrice = 0;
+    let totalPrice = 0;
+    let totalItems = 0;
+    let totalDiscountedPrice = 0;
 
-        cartItems.forEach(item => {
-            totalPrice += item.price * item.quantity;
-            totalItems += item.quantity;
-            totalDiscountedPrice += item.discountedPrice * item.quantity;
-        });
+    cartItems.forEach(item => {
+        totalPrice += item.price;
+        totalItems += item.quantity;
+        totalDiscountedPrice += item.discountedPrice;
+    });
 
-        cart.totalPrice = totalPrice;
-        cart.totalItems = totalItems;
-        cart.totalDiscountedPrice = totalDiscountedPrice;
+    cart.totalPrice = totalPrice;
+    cart.totalItems = totalItems;
+    cart.totalDiscountedPrice = totalDiscountedPrice;
 
-        next();
-    } catch (error) {
-        next(error);
-    }
-});
+    await cart.save();
+};
 
 module.exports = mongoose.model("cart", cartSchema);

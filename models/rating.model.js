@@ -7,16 +7,16 @@ const ratingSchema = new Schema(
         user : {
             type : mongoose.Schema.Types.ObjectId,
             ref : "users",
-            require : true
+            required : true
         },
         product : {
             type : mongoose.Schema.Types.ObjectId,
             ref : "products",
-            require : true
+            required : true
         },
         rating : {
             type : Number,
-            require : true
+            required : true
         }
     },
     { timestamps : true }

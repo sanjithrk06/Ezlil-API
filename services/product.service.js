@@ -8,11 +8,13 @@ async function createProduct(reqData) {
         throw new Error("Category not found with the name "+ reqData.category);
     }
 
+    const discountPrice = reqData.price * (reqData.discountPersent / 100);
+
     const product = new Product({
         title: reqData.title,
         description: reqData.description,
         price: reqData.price,
-        discountedPrice: reqData.discountedPrice,
+        discountedPrice: discountPrice,
         discountPersent: reqData.discountPersent,
         quantity: reqData.quantity,
         brand: reqData.brand,

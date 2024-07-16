@@ -3,17 +3,17 @@ const mongoose = require('mongoose');
 const cartItemSchema = new mongoose.Schema({
     product: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Product",
+        ref: "products",
         required: true
     },
     cart: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Cart",
+        ref: "cart",
         required: true
     },
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
+        ref: "users",
         required: true
     },
     quantity: {
@@ -31,4 +31,25 @@ const cartItemSchema = new mongoose.Schema({
     }
 }, { timestamps: true });
 
-module.exports = mongoose.model("CartItem", cartItemSchema);
+cartItemSchema.post('save', async function(doc, next) {
+    const cart = await mongoose.model('cart').findById(doc.cart);
+    if (cart) await cart.updateTotals();
+    next();
+});
+
+cartItemSchema.post('updateOne', async function(doc, next) {
+    const cartItem = await this.model.findOne(this.getQuery());
+    if (cartItem) {
+        const cart = await mongoose.model('cart').findById(cartItem.cart);
+        if (cart) await cart.updateTotals();
+    }
+    next();
+});
+
+cartItemSchema.post('deleteOne', { document: true, query: false }, async function(doc, next) {
+    const cart = await mongoose.model('cart').findById(doc.cart);
+    if (cart) await cart.updateTotals();
+    next();
+});
+
+module.exports = mongoose.model("cartItems", cartItemSchema);

@@ -16,7 +16,7 @@ const orderSchema = new Schema(
         ],
         orderDate : {
             type : Date,
-            require : true,
+            required : true,
             default : Date.now()
         },
         deliveryDate : {
@@ -25,7 +25,7 @@ const orderSchema = new Schema(
         shippingAddress : {
             type : mongoose.Schema.Types.ObjectId,
             ref : "addresses",
-            require : true
+            required : true
         },
         paymentDetails : {
             paymentMethod : {
@@ -44,23 +44,24 @@ const orderSchema = new Schema(
         },
         totalPrice : {
             type : Number,
-            require : true
+            required : true
         },
         totalDiscountedPrice : {
             type : Number,
-            require : true
+            required : true
         },
-        discounte : {
+        discount : {
             type : Number,
-            require : true
+            required : true
         },
         orderStatus : {
             type : String,
-            require : true
+            required : true,
+            default : "CONFIRMED"
         },
         totalItems : {
             type : Number,
-            require : true
+            required : true
         }
     },
     { timestamps : true }

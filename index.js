@@ -23,6 +23,12 @@ app.use("/api/products", productRouter);
 const adminProductRouter = require("./routes/adminProduct.route");
 app.use("/api/admin/products", adminProductRouter);
 
+const orderRouter = require("./routes/order.route");
+app.use("/api/order", orderRouter);
+
+const adminOrderRouter = require("./routes/adminOrder.route");
+app.use("/api/admin/order", adminOrderRouter);
+
 const categoryRouter = require("./routes/category.route");
 app.use("/api/category", categoryRouter);
 
@@ -30,6 +36,6 @@ const cartRouter=require("./routes/cart.route");
 app.use("/api/cart",cartRouter);
 
 const cartItemRouter=require("./routes/cartItem.route");
-app.use("/api/cartitem",cartItemRouter);
+app.use("/api/cartItem",cartItemRouter);
 
 module.exports = app;

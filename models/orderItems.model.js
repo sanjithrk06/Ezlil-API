@@ -7,24 +7,24 @@ const orderItemSchema = new Schema(
         product : {
             type : mongoose.Schema.Types.ObjectId,
             ref : "products",
-            require : true
+            required : true
         },
         quantity : {
             type : Number,
-            require : true
+            required : true
         },
         price : {
             type : Number,
-            require : true
+            required : true
         },
         discountedPrice : {
             type : Number,
-            require : true
+            required : true
         },
         user : {
             type : mongoose.Schema.Types.ObjectId,
             ref : "users",
-            require : true
+            required : true
         }
     },
     { timestamps : true }
